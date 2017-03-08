@@ -48,6 +48,7 @@ import org.jetbrains.kotlin.resolve.jvm.jvmSignature.JvmMethodParameterSignature
 import org.jetbrains.kotlin.resolve.scopes.receivers.ReceiverValue;
 import org.jetbrains.kotlin.types.KotlinType;
 import org.jetbrains.org.objectweb.asm.Label;
+import org.jetbrains.org.objectweb.asm.Opcodes;
 import org.jetbrains.org.objectweb.asm.Type;
 import org.jetbrains.org.objectweb.asm.commons.InstructionAdapter;
 
@@ -383,13 +384,19 @@ public abstract class StackValue {
             }
             else {
                 Type numberType = getType(Number.class);
-                if (toType.getSort() == Type.BOOLEAN || (toType.getSort() == Type.CHAR && !numberType.equals(fromType))) {
+                boolean toCharType = toType.getSort() == Type.CHAR;
+                if (toType.getSort() == Type.BOOLEAN || (toCharType && !numberType.equals(fromType))) {
                     coerce(fromType, boxType(toType), v);
+                    unbox(toType, v);
                 }
                 else {
                     coerce(fromType, numberType, v);
+                    unbox(toCharType ? Type.INT_TYPE : toType, v);
+                    if (toCharType) {
+                        v.visitInsn(Opcodes.I2C);
+                    }
                 }
-                unbox(toType, v);
+
             }
         }
         else {
