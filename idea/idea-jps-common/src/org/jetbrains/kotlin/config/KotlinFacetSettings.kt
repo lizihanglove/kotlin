@@ -80,7 +80,7 @@ enum class CoroutineSupport(
 class KotlinFacetSettings {
     companion object {
         // Increment this when making serialization-incompatible changes to configuration data
-        val CURRENT_VERSION = 2
+        val CURRENT_VERSION = 3
         val DEFAULT_VERSION = 0
     }
 
@@ -122,6 +122,12 @@ class KotlinFacetSettings {
                 coroutinesWarn = value == CoroutineSupport.ENABLED_WITH_WARNING
                 coroutinesError = value == CoroutineSupport.DISABLED
             }
+        }
+
+    var skipMetadataVersionCheck: Boolean
+        get() = compilerArguments?.skipMetadataVersionCheck == true
+        set(value) {
+            compilerArguments!!.skipMetadataVersionCheck = value
         }
 }
 
