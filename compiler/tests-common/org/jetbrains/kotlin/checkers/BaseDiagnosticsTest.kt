@@ -112,9 +112,6 @@ abstract class BaseDiagnosticsTest : KotlinMultiFileTestWithJava<TestModule, Tes
 
         override val additionalFeatures: Collection<LanguageFeature>
             get() = error("Must not be called")
-
-        override val isApiVersionExplicit: Boolean
-            get() = error("Must not be called")
     }
 
     inner class TestFile(

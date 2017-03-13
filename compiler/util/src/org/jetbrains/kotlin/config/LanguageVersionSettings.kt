@@ -103,17 +103,13 @@ interface LanguageVersionSettings {
     val skipMetadataVersionCheck: Boolean
 
     val additionalFeatures: Collection<LanguageFeature>
-
-    @Deprecated("This is a temporary solution, please do not use.")
-    val isApiVersionExplicit: Boolean
 }
 
 class LanguageVersionSettingsImpl @JvmOverloads constructor(
         override val languageVersion: LanguageVersion,
         override val apiVersion: ApiVersion,
         override val skipMetadataVersionCheck: Boolean = false,
-        additionalFeatures: Collection<LanguageFeature> = emptySet(),
-        override val isApiVersionExplicit: Boolean = false
+        additionalFeatures: Collection<LanguageFeature> = emptySet()
 ) : LanguageVersionSettings {
     override val additionalFeatures = additionalFeatures.toSet()
 
